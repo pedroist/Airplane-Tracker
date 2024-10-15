@@ -1,0 +1,9 @@
+{
+  "name": "takehome",
+  "version": "1.2.0",
+  "description": "S64 Takehome Assessment",
+  "workspaces": [
+    "frontend",
+    "backend"
+  ]
+}
