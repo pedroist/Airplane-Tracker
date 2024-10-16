@@ -1,0 +1,30 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:../data/planes.sqlite"
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model planes {
+  icao24         String   @id
+  callsign       String?
+  originCountry  String?
+  timePosition   String?
+  lastContact    Float?
+  longitude      String?
+  latitude       String?
+  baroAltitude   String?
+  onGround       String?
+  velocity       String?
+  trueTrack      String?
+  verticalRate   String?
+  sensors        String?
+  geoAltitude    String?
+  squawk         String?
+  spi            String?
+  positionSource String?
+  category       String?
+}
