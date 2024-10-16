@@ -2,14 +2,10 @@ import express from "express";
 import planesRoute from './routes/planesRoute';
 
 const app = express();
+const port = 3000;
 
-app.get("/greeting", (request, response) => {
-  response.send({ message: "Hello!" });
-});
+app.use('/api/planes', planesRoute);
 
-
-app.use('/planes', planesRoute);
-
-app.listen(3000, () => {
-  console.log("Server Listening on PORT:", 3000);
+app.listen(port, () => {
+  console.log(`Server running at http://localhost:${port}`);
 });

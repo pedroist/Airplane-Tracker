@@ -25,7 +25,7 @@ const PlanesTable: React.FC = () => {
 
   const fetchPlanes = async () => {
     try {
-      const response = await axios.get(`http://localhost:3001/api/planes?page=${page + 1}&limit=${rowsPerPage}`);
+      const response = await axios.get(`http://localhost:3000/api/planes?page=${page + 1}&limit=${rowsPerPage}`);
       setPlanes(response.data);
     } catch (error) {
       console.error('Error fetching planes:', error);
