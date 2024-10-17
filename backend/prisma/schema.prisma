@@ -8,11 +8,10 @@ datasource db {
 }
 
 model Planes {
-  id            Int     @id @default(autoincrement())
-  icao24        String
+  icao24        String  @id
   callsign      String?
   originCountry String?
-  velocity      Float?
-  latitude      Float?
-  longitude     Float?
+  velocity      String?
+  latitude      String?
+  longitude     String?
 }

@@ -5,4 +5,5 @@ scriptDir=$(dirname -- "$(readlink -f -- "${BASH_SOURCE[0]}")")
 
 cd "${scriptDir}/backend" || exit 1
 npm install --quiet
+npx prisma generate
 npm run dev
