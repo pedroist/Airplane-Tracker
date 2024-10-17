@@ -4,15 +4,7 @@ import {
   TablePagination, Button, Box, Alert, CircularProgress
 } from '@mui/material';
 import { usePlanes } from '../hooks/usePlanes';
-
-interface Plane {
-  icao24: string;
-  callsign: string | null;
-  originCountry: string | null;
-  velocity: number | null;
-  latitude: number | null;
-  longitude: number | null;
-}
+import { Plane } from '../types/Plane';
 
 const PlanesTable: React.FC = () => {
   const [page, setPage] = useState(0);

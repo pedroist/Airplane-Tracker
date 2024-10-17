@@ -1,14 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
-
-interface Plane {
-  icao24: string;
-  callsign: string | null;
-  originCountry: string | null;
-  velocity: string | null;
-  latitude: string | null;
-  longitude: string | null;
-}
+import { Plane } from '../types/Plane';
 
 interface UsePlanesOptions {
   page: number;
