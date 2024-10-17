@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from 'react';
-import { 
-  Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, 
-  TablePagination, Button, Box, Alert
+import React, { useState } from 'react';
+import {
+  Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper,
+  TablePagination, Button, Box, Alert, CircularProgress
 } from '@mui/material';
-import axios from 'axios';
+import { usePlanes } from '../hooks/usePlanes';
 
 interface Plane {
   icao24: string;
@@ -15,33 +15,29 @@ interface Plane {
 }
 
 const PlanesTable: React.FC = () => {
-  const [planes, setPlanes] = useState<Plane[]>([]);
   const [page, setPage] = useState(0);
   const [rowsPerPage] = useState(30);
-  const [error, setError] = useState<string | null>(null);
 
-  useEffect(() => {
-    fetchPlanes();
-  }, [page]);
-
-  const fetchPlanes = async () => {
-    try {
-      const response = await axios.get(`/api/planes?page=${page + 1}&limit=${rowsPerPage}`);
-      setPlanes(response.data);
-      setError(null);
-    } catch (error) {
-      console.error('Error fetching planes:', error);
-      setError('Failed to fetch planes. Please try again later.');
-    }
-  };
+  const { data: planes, isLoading, isError, error } = usePlanes({ page, rowsPerPage });
 
   const handleChangePage = (_event: unknown, newPage: number) => {
     setPage(newPage);
   };
 
+  if (isLoading) {
+    return (
+      <Box display="flex" justifyContent="center" alignItems="center" height="400px">
+        <CircularProgress />
+      </Box>
+    );
+  }
+
+  if (isError) {
+    return <Alert severity="error">{(error as Error).message || 'An error occurred while fetching planes.'}</Alert>;
+  }
+
   return (
     <Paper>
-      {error && <Alert severity="error">{error}</Alert>}
       <TableContainer>
         <Table>
           <TableHead>
@@ -55,7 +51,7 @@ const PlanesTable: React.FC = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {planes.map((plane) => (
+            {(planes || []).map((plane: Plane) => (
               <TableRow key={plane.icao24}>
                 <TableCell>{plane.icao24}</TableCell>
                 <TableCell>{plane.callsign}</TableCell>
@@ -72,7 +68,7 @@ const PlanesTable: React.FC = () => {
         <Button onClick={() => setPage(page - 1)} disabled={page === 0}>
           Previous Page
         </Button>
-        <Button onClick={() => setPage(page + 1)} disabled={planes.length < rowsPerPage}>
+        <Button onClick={() => setPage(page + 1)} disabled={(planes?.length ?? 0) < rowsPerPage}>
           Next Page
         </Button>
       </Box>
